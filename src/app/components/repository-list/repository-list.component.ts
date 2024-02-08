@@ -17,15 +17,16 @@ import { Repository } from 'src/app/interfaces/repository';
   templateUrl: './repository-list.component.html',
   styleUrls: ['./repository-list.component.scss'],
 })
-export class RepositoryListComponent implements OnInit, OnChanges {
+export class RepositoryListComponent implements OnInit {
   username!: string;
   userData!: User;
-  repoData!: Repository[];
+  repoData: Repository[] = [];
   twitterUrl!: string | null;
   currentPage: number = 1;
   itemsPerPage: number = 6;
   totalPages: number = 1;
   totalItems: number = 1;
+  apiPageNumber: number = 1;
 
   constructor(private apiService: ApiService, private route: ActivatedRoute) {
     const { id } = this.route.snapshot.params;
@@ -45,25 +46,9 @@ export class RepositoryListComponent implements OnInit, OnChanges {
           return;
         }
         this.repoData = [];
-        this.totalPages = Math.round(response.length / 6);
-
-        response.sort((a: any, b: any) => {
-          const date1 = new Date(a.updated_at).getTime();
-          const date2 = new Date(b.updated_at).getTime();
-          return date2 - date1;
-        });
-
-        console.log(this.currentPage);
-
-        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-        const endIndex = Math.min(
-          startIndex + this.itemsPerPage - 1,
-          response.length
-        );
+        this.totalPages = Math.ceil(this.totalItems / 6);
 
         response.map((repository: any, index: number) => {
-          if (!(index >= startIndex && index <= endIndex)) return;
-
           this.repoData.push({
             id: index,
             repoName: repository.name,
@@ -83,8 +68,5 @@ export class RepositoryListComponent implements OnInit, OnChanges {
       }
     });
     this.getData();
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    // this.getData();
   }
 }

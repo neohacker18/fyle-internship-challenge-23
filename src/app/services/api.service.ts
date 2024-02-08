@@ -4,19 +4,20 @@ import { Observable, tap, throwError } from 'rxjs';
 import { User } from '../interfaces/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(
-    private httpClient: HttpClient
-  ) { }
-
-  getUser(githubUsername: string):Observable<User>{
-    return this.httpClient.get<User>(`https://api.github.com/users/${githubUsername}`);
+  getUser(githubUsername: string): Observable<User> {
+    return this.httpClient.get<User>(
+      `https://api.github.com/users/${githubUsername}`
+    );
   }
 
-  getRepos(githubUsername: string,currentPage:number):Observable<any>{
-    return this.httpClient.get(`https://api.github.com/users/${githubUsername}/repos`);
+  getRepos(githubUsername: string, currentPage:number): Observable<any> {
+    return this.httpClient.get(
+      `https://api.github.com/users/${githubUsername}/repos?sort=updated&page=${currentPage}&per_page=6`
+    );
   }
 }
