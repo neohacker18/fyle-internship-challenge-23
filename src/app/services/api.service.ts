@@ -17,6 +17,6 @@ export class ApiService {
   }
 
   getRepos(githubUsername: string,currentPage:number):Observable<any>{
-    return this.httpClient.get(`https://api.github.com/users/${githubUsername}/repos?page=${currentPage}&per_page=6`);
+    return this.httpClient.get(`https://api.github.com/users/${githubUsername}/repos`);
   }
 }
