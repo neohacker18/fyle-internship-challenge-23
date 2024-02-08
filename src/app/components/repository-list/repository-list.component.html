@@ -1,1 +1,21 @@
-<p>repository-list works!</p>
+<div>
+  <img src="" alt="profile picture" />
+  <h1>Name</h1>
+  <h2>Bio</h2>
+  <h3>Location</h3>
+  <h5>Social Media:</h5>
+  <a target="_blank">https://github.com/{{ username }}</a>
+  <div
+    style="display: flex; flex-direction: column"
+    *ngFor="let currentRepository of repoData"
+  >
+    <div>
+      <h2>
+        {{ currentRepository.repoName }}
+      </h2>
+      <h3>
+        {{ currentRepository.description }}
+      </h3>
+    </div>
+  </div>
+</div>
