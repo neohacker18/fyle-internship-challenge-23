@@ -12,8 +12,15 @@ import { ApiService } from 'src/app/services/api.service';
 export class SearchBarComponent {
   searchBar:FormControl=new FormControl('');
   errorMessage:string='';
+  isHomePage:boolean=true;
+  currentUrl:string=''
 
-  constructor(private apiService:ApiService){
+  constructor(private apiService:ApiService,private router:Router){
+    this.currentUrl=this.router.url;
+    this.isHomePage=this.currentUrl==='/'
+    if(this.isHomePage===false){
+      this.searchBar.setValue(this.currentUrl.split('/')[2])
+    }
     this.errorMessage=this.apiService.getError()
     this.apiService.setError('')
     setTimeout(() => {
