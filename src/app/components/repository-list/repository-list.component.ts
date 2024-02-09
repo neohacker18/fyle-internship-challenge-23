@@ -45,6 +45,8 @@ export class RepositoryListComponent implements OnInit {
     this.apiService
       .getRepos(this.username, this.currentPage)
       .subscribe((response) => {
+        setTimeout(() => {
+        }, 10000);
         if (!response) {
           return;
         }
@@ -59,12 +61,55 @@ export class RepositoryListComponent implements OnInit {
             topics: repository.topics,
             url: repository.html_url,
           });
+
+          const MAX_CHARACTERS_PER_DESCRIPTION = 150;
+          let currentDescription =
+            this.repoData[this.repoData.length - 1].description;
+          if (
+            currentDescription &&
+            currentDescription.length > MAX_CHARACTERS_PER_DESCRIPTION
+          ) {
+            let words = currentDescription.split(' ');
+            let newDescription = '';
+            if (words.length === 1) {
+              newDescription =
+                currentDescription.slice(0, MAX_CHARACTERS_PER_DESCRIPTION) +
+                '...';
+              this.repoData[this.repoData.length - 1].description =
+                newDescription + '...';
+              return;
+            }
+            let i = 0;
+            while (
+              (newDescription + words[i]).length <=
+              MAX_CHARACTERS_PER_DESCRIPTION
+            ) {
+              newDescription = newDescription + words[i] + ' ';
+              i = i + 1;
+            }
+            this.repoData[this.repoData.length - 1].description =
+              newDescription + '...';
+          }
+
+          let topics = this.repoData[this.repoData.length - 1].topics;
+          if (topics && topics.length > 5) {
+            topics = topics.slice(0, 5);
+            topics.push('more...');
+          }
+          this.repoData[this.repoData.length - 1].topics = topics;
+          topics = this.repoData[this.repoData.length - 1].topics;
+
+          for (let i = 0; i < topics.length; i++) {
+            if (topics[i].length > 10) {
+              topics[i] = topics[i].slice(0, 10) + '...';
+            }
+          }
         });
       });
   }
   ngOnInit() {
     const response = this.apiService.getUser(this.username);
-    this.apiService.getUser(this.username).subscribe((response:any) => {
+    this.apiService.getUser(this.username).subscribe((response: any) => {
       this.userData = response.body;
       this.totalItems = this.userData.public_repos;
       if (this.userData.twitter_username) {

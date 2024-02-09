@@ -7,7 +7,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, tap, throwError } from 'rxjs';
+import { Observable, catchError, of, tap, throwError } from 'rxjs';
 import { User } from '../interfaces/user';
 import { CacheResolverService } from './cache-resolver.service';
 const TIME_TO_LIVE = 1000;

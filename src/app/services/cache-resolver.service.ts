@@ -27,7 +27,6 @@ export class CacheResolverService {
         this.cache.set(key, [null, value]);
       }
     }
-    // console.log(this.cache);
   }
 
   get(key:string):HttpResponse<any>|null {

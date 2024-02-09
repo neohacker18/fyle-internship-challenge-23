@@ -5,14 +5,16 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpResponse
+  HttpResponse,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, catchError, of, tap, throwError } from 'rxjs';
 import { CacheResolverService } from './services/cache-resolver.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
-  constructor(private cacheResolver: CacheResolverService) {}
+  constructor(private cacheResolver: CacheResolverService,private router:Router) {}
     
   intercept(
     req: HttpRequest<any>,
@@ -36,8 +38,14 @@ export class CacheInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       tap((event) => {
         if (event instanceof HttpResponse) {
-          this.cacheResolver.set(req.url, event, TIME_TO_LIVE);
+          this.cacheResolver.set(req.url, event);
         }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        this.router.navigateByUrl("/")
+        alert('User Not Found!');
+        console.error('CacheInterceptor error:', error);
+        return throwError(error);
       })
     );
   }

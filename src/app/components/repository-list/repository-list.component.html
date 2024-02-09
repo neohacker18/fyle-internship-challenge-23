@@ -1,7 +1,7 @@
 <div>
-  <div class="flex flex-row py-5 px-10">
+  <div class="md:flex md:flex-row py-5 px-10 sm:flex sm:flex-col">
     <img
-      class="w-60 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+      class="sm:w-96 md:w-60 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 sm:mb-4"
       [src]="userData.avatar_url"
       alt="Profile Picture"
     />
@@ -39,9 +39,9 @@
     </div>
   </div>
 </div>
-<div class="grid grid-cols-2 gap-3 ml-1 mt-10 px-10">
+<div class="md:grid md:grid-cols-2 gap-3 ml-1 mt-10 px-10 ;sm:grid sm:grid-cols-1">
   <div *ngFor="let currentRepository of repoData">
-    <div class="w-90 h-44 border-solid border-2 border-black/50 p-5">
+    <div class="md:h-44 border-solid border-2 border-black/50 p-5">
       <a
         [href]="currentRepository.url"
         target="_blank"
@@ -68,9 +68,9 @@
             : "No description"
         }}
       </h5>
-      <div class="flex flex-row">
-        <div *ngFor="let item of currentRepository.topics">
-          <div class="mt-1 mr-2 p-1.5 text-white bg-sky-500">{{ item }}</div>
+      <div class="sm:flex sm:flex-cols md:grid md:grid-flow-row-dense grid-cols-6">
+        <div *ngFor="let topic of currentRepository.topics">
+          <div class="mt-1 mr-2 p-1.5 text-white bg-sky-500 text-sm">{{ topic }}</div>
         </div>
       </div>
     </div>
