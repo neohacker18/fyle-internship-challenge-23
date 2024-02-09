@@ -20,7 +20,7 @@ import { HttpResponse } from '@angular/common/http';
 })
 export class RepositoryListComponent implements OnInit {
   username!: string;
-  userData!: User;
+  userData: User | null = null;
   repoData: Repository[] = [];
   twitterUrl!: string | null;
   currentPage: number = 1;
@@ -28,6 +28,8 @@ export class RepositoryListComponent implements OnInit {
   totalPages: number = 1;
   totalItems: number = 1;
   apiPageNumber: number = 1;
+  loading: boolean = false;
+  loadingRepositories:boolean=false;
 
   constructor(private apiService: ApiService, private route: ActivatedRoute) {
     const { id } = this.route.snapshot.params;
@@ -35,18 +37,20 @@ export class RepositoryListComponent implements OnInit {
   }
 
   addItem(newItem: number) {
+    const oldCurrentPage = this.currentPage;
     this.currentPage = newItem;
-    this.getData();
+    if (this.currentPage !== oldCurrentPage) {
+      this.getData();
+    }
   }
 
   private getData() {
+    this.loadingRepositories = true;
     const response = this.apiService.getRepos(this.username, this.currentPage);
-
     this.apiService
       .getRepos(this.username, this.currentPage)
       .subscribe((response) => {
-        setTimeout(() => {
-        }, 10000);
+        setTimeout(() => {}, 10000);
         if (!response) {
           return;
         }
@@ -106,16 +110,22 @@ export class RepositoryListComponent implements OnInit {
           }
         });
       });
+    setTimeout(() => {
+      this.loadingRepositories = false;
+    }, 1000);
   }
   ngOnInit() {
+    this.loading = true;
     const response = this.apiService.getUser(this.username);
     this.apiService.getUser(this.username).subscribe((response: any) => {
       this.userData = response.body;
+      if (this.userData === null) return;
       this.totalItems = this.userData.public_repos;
       if (this.userData.twitter_username) {
         this.twitterUrl = `https://twitter.com/${this.userData.twitter_username}`;
       }
     });
     this.getData();
+    this.loading=false;
   }
 }

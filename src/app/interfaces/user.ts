@@ -17,13 +17,13 @@ export interface User {
   id: number;
   location: string|null;
   login: string;
-  name: string;
+  name: string|null;
   node_id: string;
   organizations_url: string;
   public_gists: number;
   public_repos: number;
   received_events_url: string|null;
-  repos_url: string|null;
+  repos_url: string;
   site_admin: boolean;
   starred_url: string;
   subscriptions_url: string;

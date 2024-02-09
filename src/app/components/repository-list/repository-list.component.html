@@ -1,23 +1,50 @@
-<div>
+<div
+  class="rounded-md p-4 px-10 py-5 w-full h-full mx-auto"
+  *ngIf="!userData || loading === true"
+>
+  <div class="animate-pulse flex space-x-4">
+    <div class="rounded-full bg-slate-400/50 h-60 w-60"></div>
+    <div class="flex-1 space-y-6 py-1">
+      <div class="space-y-3">
+        <div class="grid grid-cols-3 gap-10">
+          <div class="h-20 bg-slate-400/50 rounded col-span-2"></div>
+          <div class="h-10 bg-slate-400/50 rounded col-span-2"></div>
+          <div class="h-10 bg-slate-400/50 rounded col-span-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="userData && loading === false">
   <div class="md:flex md:flex-row py-5 px-10 sm:flex sm:flex-col">
     <img
       class="sm:w-96 md:w-60 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 sm:mb-4"
+      *ngIf="userData"
       [src]="userData.avatar_url"
       alt="Profile Picture"
     />
     <div class="flex flex-col px-10">
-      <p class="text-4xl">{{ userData.name }}</p>
-      <p class="text-base py-1">{{ userData.bio ? userData.bio : "" }}</p>
-      <p class="text-base py-1">
+      <p class="text-4xl" *ngIf="userData && userData.name">
+        {{ userData.name }}
+      </p>
+      <p class="text-4xl" *ngIf="!userData"></p>
+      <p class="text-base py-1" *ngIf="userData">
+        {{ userData.bio ? userData.bio : "" }}
+      </p>
+      <p class="text-base py-1" *ngIf="!userData"></p>
+      <p class="text-base py-1" *ngIf="userData">
         {{ userData.location ? userData.location : "" }}
       </p>
-      <a class="text-base py-1" [href]="twitterUrl">
+      <p class="text-base py-1" *ngIf="!userData"></p>
+      <a class="text-base py-1" [href]="twitterUrl" *ngIf="userData">
         <span>{{ twitterUrl ? "Twitter: " : "" }}</span>
-        <span class="underline decoration-solid">
+        <span class="underline decoration-solid" *ngIf="userData">
           {{ twitterUrl ? twitterUrl : "" }}
         </span>
       </a>
       <a
+        *ngIf="userData"
         target="_blank"
         [href]="userData.html_url"
         class="underline decoration-solid flex"
@@ -28,18 +55,41 @@
           stroke-width="1.5"
           stroke="currentColor"
           class="w-4 h-6 mr-1"
+          *ngIf="userData"
         >
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
             d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+            *ngIf="userData"
           /></svg
         >{{ userData.html_url }}</a
       >
     </div>
   </div>
 </div>
-<div class="md:grid md:grid-cols-2 gap-3 ml-1 mt-10 px-10 ;sm:grid sm:grid-cols-1">
+<div
+  class="px-10 mx-autogrid grid-rows-3 gap-10 mt-10 animate-pulse"
+  *ngIf="!userData || loading === true || loadingRepositories == true"
+>
+  <div class="flex flex-cols-2 w-full gap-4 mb-4">
+    <div class="w-1/2 h-44 bg-slate-400/50"></div>
+    <div class="w-1/2 h-44 bg-slate-400/50"></div>
+  </div>
+  <div class="flex flex-cols-2 w-full gap-4 mb-4">
+    <div class="w-1/2 h-44 bg-slate-400/50"></div>
+    <div class="w-1/2 h-44 bg-slate-400/50"></div>
+  </div>
+  <div class="flex flex-cols-2 w-full gap-4">
+    <div class="w-1/2 h-44 bg-slate-400/50"></div>
+    <div class="w-1/2 h-44 bg-slate-400/50"></div>
+  </div>
+</div>
+<div
+  class="md:grid md:grid-cols-2 gap-3 ml-1 mt-10 px-10 ;sm:grid sm:grid-cols-1"
+  *ngIf="userData && loading === false && loadingRepositories == false"
+>
+  <div *ngIf="repoData.length === 0">No repositories found!</div>
   <div *ngFor="let currentRepository of repoData">
     <div class="md:h-44 border-solid border-2 border-black/50 p-5">
       <a
@@ -68,12 +118,21 @@
             : "No description"
         }}
       </h5>
-      <div class="sm:flex sm:flex-cols md:grid md:grid-flow-row-dense grid-cols-6">
+      <div
+        class="sm:flex sm:flex-cols md:grid md:grid-flow-row-dense grid-cols-6"
+      >
         <div *ngFor="let topic of currentRepository.topics">
-          <div class="mt-1 mr-2 p-1.5 text-white bg-sky-500 text-sm">{{ topic }}</div>
+          <div class="mt-1 mr-2 p-1.5 text-white bg-sky-500 text-sm">
+            {{ topic }}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<app-pagination [totalPages]="totalPages" [totalItems]="totalItems" (newItemEvent)="addItem($event)"></app-pagination>
+<app-pagination
+  *ngIf="repoData.length !== 0"
+  [totalPages]="totalPages"
+  [totalItems]="totalItems"
+  (newItemEvent)="addItem($event)"
+></app-pagination>
