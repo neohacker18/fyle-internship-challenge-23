@@ -46,15 +46,15 @@ export class ApiService {
       return cachedResponse
   }
 
-  getRepos(githubUsername: string, currentPage: number): Observable<any> {
+  getRepos(githubUsername: string, currentPage: number,itemsPerPage:number): Observable<any> {
     const cachedResponse=this.httpClient
-      .get(`https://api.github.com/users/${githubUsername}/repos?sort=updated&page=${currentPage}&per_page=6`, {
+      .get(`https://api.github.com/users/${githubUsername}/repos?sort=updated&page=${currentPage}&per_page=${itemsPerPage}`, {
         observe: 'response',
       })
       .pipe(
         tap((response: HttpResponse<any>) => {
           this.cacheResolver.set(
-            `https://api.github.com/users/${githubUsername}/repos?sort=updated&page=${currentPage}&per_page=6`,
+            `https://api.github.com/users/${githubUsername}/repos?sort=updated&page=${currentPage}&per_page=${itemsPerPage}`,
             response,
             TIME_TO_LIVE
           );

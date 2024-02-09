@@ -13,7 +13,8 @@ export class SearchBarComponent {
   searchBar:FormControl=new FormControl('');
   errorMessage:string='';
   isHomePage:boolean=true;
-  currentUrl:string=''
+  currentUrl:string='';
+
 
   constructor(private apiService:ApiService,private router:Router){
     this.currentUrl=this.router.url;

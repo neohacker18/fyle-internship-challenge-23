@@ -14,7 +14,7 @@ import {
   styleUrls: ['./pagination.component.scss'],
 })
 export class PaginationComponent implements OnChanges {
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 10;
   currentPage: number = 1;
   pages!: Array<number>|null;
   @Input() totalPages = 1;

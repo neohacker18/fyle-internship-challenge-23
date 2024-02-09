@@ -24,16 +24,25 @@ export class RepositoryListComponent implements OnInit {
   repoData: Repository[] = [];
   twitterUrl!: string | null;
   currentPage: number = 1;
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 10;
   totalPages: number = 1;
   totalItems: number = 1;
   apiPageNumber: number = 1;
   loading: boolean = false;
   loadingRepositories:boolean=false;
+  dropdownVisible:boolean=false;
 
   constructor(private apiService: ApiService, private route: ActivatedRoute) {
     const { id } = this.route.snapshot.params;
     this.username = id;
+  }
+
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
+  selectPageSize(value:number){
+    this.itemsPerPage=value;
   }
 
   addItem(newItem: number) {
@@ -44,18 +53,18 @@ export class RepositoryListComponent implements OnInit {
     }
   }
 
-  private getData() {
+  getData() {
     this.loadingRepositories = true;
-    const response = this.apiService.getRepos(this.username, this.currentPage);
+    const response = this.apiService.getRepos(this.username, this.currentPage,this.itemsPerPage);
     this.apiService
-      .getRepos(this.username, this.currentPage)
+      .getRepos(this.username, this.currentPage,this.itemsPerPage)
       .subscribe((response) => {
         setTimeout(() => {}, 10000);
         if (!response) {
           return;
         }
         this.repoData = [];
-        this.totalPages = Math.ceil(this.totalItems / 6);
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
 
         response.body.map((repository: any, index: number) => {
           this.repoData.push({
