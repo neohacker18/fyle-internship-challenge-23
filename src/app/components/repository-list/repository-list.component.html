@@ -1,86 +1,4 @@
 <app-search-bar></app-search-bar>
-<div class="mt-5 ml-10 relative">
-  <button
-    id="dropdownInformationButton"
-    (click)="toggleDropdown()"
-    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-    type="button"
-  >
-    Current Page Size: {{ itemsPerPage }}
-    <svg
-      class="w-2.5 h-2.5 ms-3"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 10 6"
-    >
-      <path
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="m1 1 4 4 4-4"
-      />
-    </svg>
-  </button>
-
-  <div
-    id="dropdownInformation"
-    [class]="
-      dropdownVisible
-        ? 'z-50 absolute top-full bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700 dark:divide-gray-600'
-        : 'hidden'
-    "
-    aria-labelledby="dropdownInformationButton"
-  >
-    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-      <li
-        (click)="
-          selectPageSize(10); currentPage = 1; apiPageNumber = 1; getData()
-        "
-      >
-        <div
-          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-        >
-          10
-        </div>
-      </li>
-      <li
-        (click)="
-          selectPageSize(25); currentPage = 1; apiPageNumber = 1; getData()
-        "
-      >
-        <div
-          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-        >
-          25
-        </div>
-      </li>
-      <li
-        (click)="
-          selectPageSize(50); currentPage = 1; apiPageNumber = 1; getData()
-        "
-      >
-        <div
-          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-        >
-          50
-        </div>
-      </li>
-      <li
-        (click)="
-          selectPageSize(100); currentPage = 1; apiPageNumber = 1; getData()
-        "
-      >
-        <div
-          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-        >
-          100
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
 <div
   class="rounded-md p-4 px-10 py-5 w-full h-full mx-auto"
   *ngIf="!userData || loading === true"
@@ -178,7 +96,7 @@
       <a
         [href]="currentRepository.url"
         target="_blank"
-        class="font-bold text-3xl text-sky-400/90 flex"
+        class="font-bold text-3xl text-blue-500/90 flex"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -205,7 +123,7 @@
         class="sm:flex sm:flex-cols md:grid md:grid-flow-row-dense grid-cols-6"
       >
         <div *ngFor="let topic of currentRepository.topics">
-          <div class="mt-1 mr-2 p-1.5 text-white bg-sky-500 text-sm">
+          <div class="mt-1 mr-2 p-1.5 text-white bg-blue-700/80 text-sm">
             {{ topic }}
           </div>
         </div>
@@ -218,4 +136,5 @@
   [totalPages]="totalPages"
   [totalItems]="totalItems"
   (newItemEvent)="addItem($event)"
+  (newItemEvent2)="addItem2($event)"
 ></app-pagination>

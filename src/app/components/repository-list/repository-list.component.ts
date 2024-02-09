@@ -30,15 +30,10 @@ export class RepositoryListComponent implements OnInit {
   apiPageNumber: number = 1;
   loading: boolean = false;
   loadingRepositories:boolean=false;
-  dropdownVisible:boolean=false;
 
   constructor(private apiService: ApiService, private route: ActivatedRoute) {
     const { id } = this.route.snapshot.params;
     this.username = id;
-  }
-
-  toggleDropdown() {
-    this.dropdownVisible = !this.dropdownVisible;
   }
 
   selectPageSize(value:number){
@@ -51,6 +46,13 @@ export class RepositoryListComponent implements OnInit {
     if (this.currentPage !== oldCurrentPage) {
       this.getData();
     }
+  }
+  
+  addItem2(newItem: number) {
+    console.log(newItem)
+    this.itemsPerPage=newItem
+    this.currentPage = 1;
+    this.getData();
   }
 
   getData() {

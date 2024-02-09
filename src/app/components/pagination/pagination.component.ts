@@ -20,7 +20,12 @@ export class PaginationComponent implements OnChanges {
   @Input() totalPages = 1;
   @Input() totalItems= 1;
   @Output() newItemEvent = new EventEmitter<number>();
-
+  @Output() newItemEvent2 = new EventEmitter<number>();
+  dropdownVisible:boolean=false;
+  
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.pages=[]
@@ -30,5 +35,8 @@ export class PaginationComponent implements OnChanges {
   }
   addNewItem(value: number) {
     this.newItemEvent.emit(value);
+  }
+  addNewItem2(value: number) {
+    this.newItemEvent2.emit(value);
   }
 }

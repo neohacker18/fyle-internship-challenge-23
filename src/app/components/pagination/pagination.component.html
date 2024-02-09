@@ -1,3 +1,73 @@
+<div class="mt-5 ml-10 relative">
+  <button
+    id="dropdownInformationButton"
+    (click)="toggleDropdown()"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    type="button"
+  >
+    Current Page Size: {{ itemsPerPage }}
+    <svg
+      class="w-2.5 h-2.5 ms-3"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 10 6"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="m1 1 4 4 4-4"
+      />
+    </svg>
+  </button>
+
+  <div
+    id="dropdownInformation"
+    [class]="
+      dropdownVisible
+        ? 'z-50 absolute bottom-full bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700 dark:divide-gray-600'
+        : 'hidden'
+    "
+    aria-labelledby="dropdownInformationButton"
+  >
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+      <li>
+        <div
+          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+          (click)="addNewItem2(10); itemsPerPage = 10; currentPage = 1"
+        >
+          10
+        </div>
+      </li>
+      <li>
+        <div
+          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+          (click)="addNewItem2(25); itemsPerPage = 25; currentPage = 1"
+        >
+          25
+        </div>
+      </li>
+      <li>
+        <div
+          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+          (click)="addNewItem2(50); itemsPerPage = 50; currentPage = 1"
+        >
+          50
+        </div>
+      </li>
+      <li>
+        <div
+          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+          (click)="addNewItem2(100); itemsPerPage = 100; currentPage = 1"
+        >
+          100
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
 <div class="flex items-center justify-between px-10 py-3">
   <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
     <div>
@@ -46,7 +116,7 @@
           [class]="
             'relative cursor-pointer hidden items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300  focus:z-20 focus:outline-offset-0 md:inline-flex' +
             (currentPage === page + 1
-              ? ' bg-sky-400 text-white'
+              ? ' bg-blue-700 text-white'
               : ' bg-white-400 hover:bg-gray-100')
           "
           (click)="this.currentPage = page + 1; addNewItem(this.currentPage)"
@@ -80,28 +150,29 @@
     </div>
   </div>
 </div>
-<div class="sm:not-sr-only md:sr-only flex justify-between w-full px-10 place-items-center">
+<div
+  class="sm:not-sr-only md:sr-only flex justify-between w-full px-10 place-items-center"
+>
   <button
     class="cursor-pointer inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-  (click)="
-  this.currentPage =
-    this.currentPage === 1
-      ? this.currentPage
-      : this.currentPage - 1;
-  addNewItem(this.currentPage)
-">
+    (click)="
+      this.currentPage =
+        this.currentPage === 1 ? this.currentPage : this.currentPage - 1;
+      addNewItem(this.currentPage)
+    "
+  >
     Previous
   </button>
   <button
     class="relative cursor-pointer inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
     (click)="
-    this.currentPage =
-      this.currentPage === this.totalPages
-        ? this.currentPage
-        : this.currentPage + 1;
-    addNewItem(this.currentPage)
-  "
-    >
+      this.currentPage =
+        this.currentPage === this.totalPages
+          ? this.currentPage
+          : this.currentPage + 1;
+      addNewItem(this.currentPage)
+    "
+  >
     Next
   </button>
 </div>
