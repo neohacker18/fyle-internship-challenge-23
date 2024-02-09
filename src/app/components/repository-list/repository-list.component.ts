@@ -11,6 +11,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { User } from 'src/app/interfaces/user';
 import { Repository } from 'src/app/interfaces/repository';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-repository-list',
@@ -39,6 +40,8 @@ export class RepositoryListComponent implements OnInit {
   }
 
   private getData() {
+    const response = this.apiService.getRepos(this.username, this.currentPage);
+
     this.apiService
       .getRepos(this.username, this.currentPage)
       .subscribe((response) => {
@@ -48,7 +51,7 @@ export class RepositoryListComponent implements OnInit {
         this.repoData = [];
         this.totalPages = Math.ceil(this.totalItems / 6);
 
-        response.map((repository: any, index: number) => {
+        response.body.map((repository: any, index: number) => {
           this.repoData.push({
             id: index,
             repoName: repository.name,
@@ -60,8 +63,9 @@ export class RepositoryListComponent implements OnInit {
       });
   }
   ngOnInit() {
-    this.apiService.getUser(this.username).subscribe((response: User) => {
-      this.userData = response;
+    const response = this.apiService.getUser(this.username);
+    this.apiService.getUser(this.username).subscribe((response:any) => {
+      this.userData = response.body;
       this.totalItems = this.userData.public_repos;
       if (this.userData.twitter_username) {
         this.twitterUrl = `https://twitter.com/${this.userData.twitter_username}`;
