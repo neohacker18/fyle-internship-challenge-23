@@ -10,10 +10,12 @@ import { RouterLink, RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { CacheInterceptor } from './cache.interceptor';
+import { UserNotFoundComponent } from './components/user-not-found/user-not-found.component';
 
 const routes: Routes = [
   { path: '', component: SearchBarComponent },
   { path: 'user/:id', component: RepositoryListComponent },
+  { path: 'user-not-found', component: UserNotFoundComponent },
   { path: '**', component: PageNotFoundComponent, title: '404 Page Not Found' },
 ];
 
@@ -23,6 +25,7 @@ const routes: Routes = [
     SearchBarComponent,
     RepositoryListComponent,
     PaginationComponent,
+    UserNotFoundComponent,
   ],
   imports: [
     BrowserModule,

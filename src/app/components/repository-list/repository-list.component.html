@@ -19,12 +19,12 @@
 <div *ngIf="userData && loading === false">
   <div class="md:flex md:flex-row py-5 px-10 sm:flex sm:flex-col">
     <img
-      class="sm:w-96 md:w-60 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 sm:mb-4"
+      class="sm:w-96 md:w-60 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 sm:mb-8"
       *ngIf="userData"
       [src]="userData.avatar_url"
       alt="Profile Picture"
     />
-    <div class="flex flex-col px-10">
+    <div class="flex flex-col px-10 mt-5">
       <p class="text-4xl" *ngIf="userData && userData.name">
         {{ userData.name }}
       </p>
@@ -54,7 +54,7 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-4 h-6 mr-1"
+          class="w-4 h-6 md:mr-1"
           *ngIf="userData"
         >
           <path
@@ -69,7 +69,7 @@
   </div>
 </div>
 <div
-  class="px-10 mx-autogrid grid-rows-3 gap-10 mt-10 animate-pulse"
+  class="px-10 mx-autogrid grid-rows-3 gap-10 mt-10 animate-pulse "
   *ngIf="!userData || loading === true || loadingRepositories == true"
 >
   <div class="flex flex-cols-2 w-full gap-4 mb-4">

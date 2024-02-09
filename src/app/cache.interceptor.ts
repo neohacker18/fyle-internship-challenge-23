@@ -6,21 +6,25 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpResponse,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, catchError, of, tap, throwError } from 'rxjs';
 import { CacheResolverService } from './services/cache-resolver.service';
 import { Router } from '@angular/router';
+import { ApiService } from './services/api.service';
 
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
-  constructor(private cacheResolver: CacheResolverService,private router:Router) {}
-    
+  constructor(
+    private apiService:ApiService,
+    private cacheResolver: CacheResolverService,
+    private router: Router
+  ) {}
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-
     if (req.method !== 'GET') {
       return next.handle(req);
     }
@@ -42,9 +46,8 @@ export class CacheInterceptor implements HttpInterceptor {
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        this.router.navigateByUrl("/")
-        alert('User Not Found!');
-        console.error('CacheInterceptor error:', error);
+        this.router.navigateByUrl('');
+        this.apiService.setError("Entered user does not exist.")
         return throwError(error);
       })
     );

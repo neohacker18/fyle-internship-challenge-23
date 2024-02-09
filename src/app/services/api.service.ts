@@ -16,11 +16,18 @@ const TIME_TO_LIVE = 1000;
   providedIn: 'root',
 })
 export class ApiService {
+  userNotFoundError:string=''
   constructor(
     private httpClient: HttpClient,
     private cacheResolver: CacheResolverService
   ) {}
 
+  getError():string{
+    return this.userNotFoundError;
+  }
+  setError(value:string):void{
+    this.userNotFoundError=value;
+  }
 
   getUser(githubUsername: string): Observable<any> {
     const cachedResponse=this.httpClient
