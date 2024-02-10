@@ -1,6 +1,11 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ApiService } from './api.service';
+import { mockUser } from '../mock-data/mock-user';
+import { mockRepoData } from '../mock-data/mock-repo-data';
 
 describe('ApiService', () => {
   let service: ApiService;
@@ -9,7 +14,7 @@ describe('ApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [ApiService]
+      providers: [ApiService],
     });
     service = TestBed.inject(ApiService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -23,59 +28,31 @@ describe('ApiService', () => {
     expect(service).toBeTruthy();
   });
 
-  // describe('getUser', () => {
-  //   it('should return user data', () => {
-  //     const mockUser = { login: 'testuser', id: 123 };
+  it('should set and get error message', () => {
+    const errorMessage = 'User not found';
+    service.setError(errorMessage);
+    expect(service.getError()).toEqual(errorMessage);
+  });
 
-  //     service.getUser('testuser').subscribe(user => {
-  //       expect(user).toEqual(mockUser);
-  //     });
+  it('should make a GET request to fetch user data', () => {
+    service.getUser('neohacker18').subscribe((response) => {
+      expect(response.body).toEqual(mockUser);
+    });
 
-  //     const request = httpMock.expectOne('https://api.github.com/users/testuser');
-  //     expect(request.request.method).toBe('GET');
-  //     request.flush(mockUser);
-  //   });
+    const req = httpMock.expectOne('https://api.github.com/users/neohacker18');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockUser);
+  });
+  
+  it('should make a GET request to fetch user repositories', () => {
+    service.getRepos('neohacker18', 1, 10).subscribe((response) => {
+      expect(response.body).toEqual(mockRepoData);
+    });
 
-  //   it('should cache response', () => {
-  //     const mockUser = { login: 'testuser', id: 123 };
-
-  //     service.getUser('testuser').subscribe();
-  //     const request = httpMock.expectOne('https://api.github.com/users/testuser');
-  //     request.flush(mockUser);
-
-  //     service.getUser('testuser').subscribe(user => {
-  //       expect(user).toEqual(mockUser);
-  //     });
-
-  //     httpMock.expectNone('https://api.github.com/users/testuser'); // Make sure no new request is made
-  //   });
-  // });
-
-  // describe('getRepos', () => {
-  //   it('should return repositories data', () => {
-  //     const mockRepos = [{ name: 'repo1' }, { name: 'repo2' }];
-
-  //     service.getRepos('testuser', 1, 10).subscribe(repos => {
-  //       expect(repos).toEqual(mockRepos);
-  //     });
-
-  //     const request = httpMock.expectOne('https://api.github.com/users/testuser/repos?sort=updated&page=1&per_page=10');
-  //     expect(request.request.method).toBe('GET');
-  //     request.flush(mockRepos);
-  //   });
-
-    // it('should cache response', () => {
-    //   const mockRepos = [{ name: 'repo1' }, { name: 'repo2' }];
-
-    //   service.getRepos('testuser', 1, 10).subscribe();
-    //   const request = httpMock.expectOne('https://api.github.com/users/testuser/repos?sort=updated&page=1&per_page=10');
-    //   request.flush(mockRepos);
-
-    //   service.getRepos('testuser', 1, 10).subscribe(repos => {
-    //     expect(repos).toEqual(mockRepos);
-    //   });
-
-    //   httpMock.expectNone('https://api.github.com/users/testuser/repos?sort=updated&page=1&per_page=10'); // Make sure no new request is made
-    // });
-  // });
+    const req = httpMock.expectOne(
+      'https://api.github.com/users/neohacker18/repos?sort=updated&page=1&per_page=10'
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush(mockRepoData);
+  });
 });

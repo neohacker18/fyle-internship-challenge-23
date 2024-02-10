@@ -1,35 +1,48 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RepositoryListComponent } from './repository-list.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
+import { mockRepoData } from 'src/app/mock-data/mock-repo-data';
 
 describe('RepositoryListComponent', () => {
   let component: RepositoryListComponent;
   let fixture: ComponentFixture<RepositoryListComponent>;
+  let apiService: any; 
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RepositoryListComponent],
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, ReactiveFormsModule, RouterTestingModule],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of(convertToParamMap({ id: 'testId' })),
+            params: of({ id: 'neohacker18' }),
             snapshot: {
-              paramMap: convertToParamMap({ id: 'testId' })
+              paramMap: convertToParamMap({ id: 'neohacker18' })
             }
           },
         },
       ],
     });
+    apiService = jasmine.createSpyObj('ApiService', ['getRepos', 'getUser']);
+    TestBed.overrideProvider(ApiService, { useValue: apiService });
     fixture = TestBed.createComponent(RepositoryListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should select page size', () => {
+    component.selectPageSize(20);
+    expect(component.itemsPerPage).toBe(20);
+  });
+
 });

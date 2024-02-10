@@ -16,27 +16,27 @@ import {
 export class PaginationComponent implements OnChanges {
   itemsPerPage: number = 10;
   currentPage: number = 1;
-  pages!: Array<number>|null;
+  pages!: Array<number> | null;
   @Input() totalPages = 1;
-  @Input() totalItems= 1;
+  @Input() totalItems = 1;
   @Output() newItemEvent = new EventEmitter<number>();
   @Output() newItemEvent2 = new EventEmitter<number>();
-  dropdownVisible:boolean=false;
-  
+  dropdownVisible: boolean = false;
+
   toggleDropdown() {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.pages=[]
+    this.pages = [];
     for (let i = 0; i < this.totalPages; i++) {
       this.pages.push(i);
     }
   }
-  addNewItem(value: number) {
+  changePage(value: number) {
     this.newItemEvent.emit(value);
   }
-  addNewItem2(value: number) {
+  changeItems(value: number) {
     this.newItemEvent2.emit(value);
   }
 }

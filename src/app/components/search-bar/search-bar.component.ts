@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
@@ -7,26 +7,21 @@ import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.scss']
+  styleUrls: ['./search-bar.component.scss'],
 })
 export class SearchBarComponent {
-  searchBar:FormControl=new FormControl('');
-  errorMessage:string='';
-  isHomePage:boolean=true;
-  currentUrl:string='';
+  searchBar: FormControl = new FormControl('');
+  errorMessage: string = '';
+  isHomePage: boolean = true;
+  currentUrl: string = '';
 
-
-  constructor(private apiService:ApiService,private router:Router){
-    this.currentUrl=this.router.url;
-    this.isHomePage=this.currentUrl==='/'
-    if(this.isHomePage===false){
-      this.searchBar.setValue(this.currentUrl.split('/')[2])
+  constructor(private apiService: ApiService) {
+    this.errorMessage = this.apiService.getError();
+    if (this.errorMessage !== '') {
+      this.apiService.setError('');
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
     }
-    this.errorMessage=this.apiService.getError()
-    this.apiService.setError('')
-    setTimeout(() => {
-      this.errorMessage=''
-    }, 3000);
   }
-  
 }

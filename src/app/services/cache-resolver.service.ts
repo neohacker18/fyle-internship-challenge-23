@@ -10,7 +10,6 @@ export class CacheResolverService {
   constructor() {}
 
   set(key: string, value: HttpResponse<any>, timeToLive: number | null = null) {
-    // console.log('Set cache key', key);
     if (this.cache.has(key)) {
       const existingEntry = this.cache.get(key);
       if (existingEntry) {

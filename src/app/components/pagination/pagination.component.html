@@ -36,7 +36,7 @@
       <li>
         <div
           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-          (click)="addNewItem2(10); itemsPerPage = 10; currentPage = 1"
+          (click)="changeItems(10); itemsPerPage = 10; currentPage = 1"
         >
           10
         </div>
@@ -44,7 +44,7 @@
       <li>
         <div
           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-          (click)="addNewItem2(25); itemsPerPage = 25; currentPage = 1"
+          (click)="changeItems(25); itemsPerPage = 25; currentPage = 1"
         >
           25
         </div>
@@ -52,7 +52,7 @@
       <li>
         <div
           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-          (click)="addNewItem2(50); itemsPerPage = 50; currentPage = 1"
+          (click)="changeItems(50); itemsPerPage = 50; currentPage = 1"
         >
           50
         </div>
@@ -60,7 +60,7 @@
       <li>
         <div
           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-          (click)="addNewItem2(100); itemsPerPage = 100; currentPage = 1"
+          (click)="changeItems(100); itemsPerPage = 100; currentPage = 1"
         >
           100
         </div>
@@ -95,7 +95,7 @@
           (click)="
             this.currentPage =
               this.currentPage === 1 ? 1 : this.currentPage - 1;
-            addNewItem(this.currentPage)
+            changePage(this.currentPage)
           "
         >
           <svg
@@ -119,7 +119,7 @@
               ? ' bg-blue-700 text-white'
               : ' bg-white-400 hover:bg-gray-100')
           "
-          (click)="this.currentPage = page + 1; addNewItem(this.currentPage)"
+          (click)="this.currentPage = page + 1; changePage(this.currentPage)"
           >{{ page + 1 }}</span
         >
         <span
@@ -129,7 +129,7 @@
               this.currentPage === this.totalPages
                 ? this.currentPage
                 : this.currentPage + 1;
-            addNewItem(this.currentPage)
+            changePage(this.currentPage)
           "
         >
           <svg
@@ -158,7 +158,7 @@
     (click)="
       this.currentPage =
         this.currentPage === 1 ? this.currentPage : this.currentPage - 1;
-      addNewItem(this.currentPage)
+      changePage(this.currentPage)
     "
   >
     Previous
@@ -170,7 +170,7 @@
         this.currentPage === this.totalPages
           ? this.currentPage
           : this.currentPage + 1;
-      addNewItem(this.currentPage)
+      changePage(this.currentPage)
     "
   >
     Next

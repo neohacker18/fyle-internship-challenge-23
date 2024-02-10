@@ -46,8 +46,13 @@ export class CacheInterceptor implements HttpInterceptor {
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        this.router.navigateByUrl('');
-        this.apiService.setError("Entered user does not exist.")
+        if(error.status===403){
+
+          this.apiService.setError("API Rate limit exceeded.")
+        }
+        else{
+          this.apiService.setError("Entered user does not exist.")
+        }
         return throwError(error);
       })
     );
