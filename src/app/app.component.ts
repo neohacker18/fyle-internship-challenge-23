@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+  title = 'fyle-frontend-challenge';
   constructor(
     private apiService: ApiService,private router:Router
   ) {
