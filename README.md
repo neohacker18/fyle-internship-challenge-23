@@ -1,33 +1,5 @@
 # Fyle Frontend Challenge
 
-## Who is this for?
-
-This challenge is meant for candidates who wish to intern at Fyle and work with our engineering team. The candidate should be able to commit to at least 6 months of dedicated time for internship.
-
-## Why work at Fyle?
-
-Fyle is a fast-growing Expense Management SaaS product. We are ~40 strong engineering team at the moment. 
-
-We are an extremely transparent organization. Check out our [careers page](https://careers.fylehq.com) that will give you a glimpse of what it is like to work at Fyle. Also, check out our Glassdoor reviews [here](https://www.glassdoor.co.in/Reviews/Fyle-Reviews-E1723235.htm). You can read stories from our teammates [here](https://stories.fylehq.com).
-
-## Challenge outline
-
-This challenge involves implementing application using github api. 
-
-The services that you need to use are already implemented - check out ApiService.
-
-You can see details of this challenge [here](https://fyleuniverse.notion.site/fyleuniverse/Fyle-Frontend-development-challenge-cb5085e5e0864e769e7b98c694400aaa)
-
-__Note__ - This challenge is in angular. We work on angular frameworks & after you join we expect the same from you. Hence it is required to complete this assignement in angular itself.
-
-## What happens next?
-
-You will hear back within 48 hours from us via email.
-
-## Installation
-
-1. Fork this repository to your github account.
-2. Clone the forked repository and proceed with steps mentioned below.
 
 ### Install requirements
 * Install angular cli [Ref](https://angular.io/cli)
@@ -37,7 +9,18 @@ You will hear back within 48 hours from us via email.
 
 Run `ng serve` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
-## Further help
+## Testing server
 
-Visit the [Angular Documentation](https://angular.io/guide/styleguide) to learn more.
-Styling is to be strictly done with [Tailwind](https://tailwindcss.com/docs/installation).
+Run `ng test` for a test server. 
+
+## Certain things to keep in mind
+
+1. A `MAX_CHARACTERS_PER_DESCRIPTION = 150` was defined in order to slice any repository description longer than 150.
+
+2. Similarly, topics arrays larger than 5 in length were also slices and further topics were replaced with an instance of `more...` and if any topic was greater than 10 in length then it was also sliced and appended with `...`.
+
+3. A `settimeout` was added in order to display the skeleton loader. This is only to emphasize its affect and is by no means an imperative part of the project and can thus be removed freely.
+
+4. The `should render title` spec was disabled in the `app.component.spec.ts` as changes were made to the `app.component.html` file.
+
+
