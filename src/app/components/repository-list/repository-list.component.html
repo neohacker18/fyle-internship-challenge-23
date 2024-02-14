@@ -54,10 +54,10 @@
     {{ errorMessage }}
   </p>
 </div>
-<div *ngIf="errorMessage == ''">
+<div>
   <div
     class="rounded-md p-4 px-10 py-5 w-full h-full mx-auto"
-    *ngIf="!userData || loading === true"
+    *ngIf="loading==true"
   >
     <div class="animate-pulse flex space-x-4">
       <div class="rounded-full bg-slate-400/50 h-60 w-60"></div>
@@ -73,7 +73,7 @@
     </div>
   </div>
   <div >
-    <div *ngIf="userData && loading === false">
+    <div *ngIf="userData && loading==false">
       <div class="md:flex md:flex-row py-5 px-10 sm:flex sm:flex-col">
         <img
           class="sm:w-96 md:w-60 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 sm:mb-8"
@@ -127,7 +127,7 @@
     </div>
     <div
       class="px-10 mx-autogrid grid-rows-3 gap-10 mt-10 animate-pulse"
-      *ngIf="!userData || loading === true || loadingRepositories == true"
+      *ngIf="loadingRepositories == true"
     >
       <div class="flex flex-cols-2 w-full gap-4 mb-4">
         <div class="w-1/2 h-44 bg-slate-400/50"></div>

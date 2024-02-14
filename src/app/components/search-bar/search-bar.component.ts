@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
@@ -11,17 +11,8 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class SearchBarComponent {
   searchBar: FormControl = new FormControl('');
-  errorMessage: string = '';
   isHomePage: boolean = true;
   currentUrl: string = '';
 
-  constructor(private apiService: ApiService) {
-    this.errorMessage = this.apiService.getError();
-    if (this.errorMessage !== '') {
-      this.apiService.setError('');
-      setTimeout(() => {
-        this.errorMessage = '';
-      }, 3000);
-    }
-  }
+  constructor(private apiService: ApiService) {}
 }

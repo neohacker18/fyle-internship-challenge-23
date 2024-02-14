@@ -67,88 +67,90 @@ export class RepositoryListComponent implements OnInit {
   }
 
   getData() {
-    this.loadingRepositories = true;
-      this.apiService
-        .getRepos(this.username, this.currentPage, this.itemsPerPage)
-        .subscribe(
-          (response) => {
-            if (!response) {
-              return;
-            }
-            this.repoData = [];
-            this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    // this.loadingRepositories = true;
+    this.apiService
+      .getRepos(this.username, this.currentPage, this.itemsPerPage)
+      .subscribe(
+        (response) => {
+          if (!response) {
+            return;
+          }
+          this.repoData = [];
+          this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
 
-            response.body.map((repository: any, index: number) => {
-              this.repoData.push({
-                id: index,
-                repoName: repository.name,
-                description: repository.description,
-                topics: repository.topics,
-                url: repository.html_url,
-              });
+          response.body.map((repository: any, index: number) => {
+            this.repoData.push({
+              id: index,
+              repoName: repository.name,
+              description: repository.description,
+              topics: repository.topics,
+              url: repository.html_url,
+            });
 
-              const MAX_CHARACTERS_PER_DESCRIPTION = 150;
-              let currentDescription =
-                this.repoData[this.repoData.length - 1].description;
-              if (
-                currentDescription &&
-                currentDescription.length > MAX_CHARACTERS_PER_DESCRIPTION
-              ) {
-                let words = currentDescription?.split(' ');
-                let newDescription = '';
-                if (words.length === 1) {
-                  newDescription =
-                    currentDescription.slice(
-                      0,
-                      MAX_CHARACTERS_PER_DESCRIPTION
-                    ) + '...';
-                  this.repoData[this.repoData.length - 1].description =
-                    newDescription + '...';
-                  return;
-                }
-                let i = 0;
-                while (
-                  (newDescription + words[i]).length <=
-                  MAX_CHARACTERS_PER_DESCRIPTION
-                ) {
-                  newDescription = newDescription + words[i] + ' ';
-                  i = i + 1;
-                }
+            const MAX_CHARACTERS_PER_DESCRIPTION = 150;
+            let currentDescription =
+              this.repoData[this.repoData.length - 1].description;
+            if (
+              currentDescription &&
+              currentDescription.length > MAX_CHARACTERS_PER_DESCRIPTION
+            ) {
+              let words = currentDescription?.split(' ');
+              let newDescription = '';
+              if (words.length === 1) {
+                newDescription =
+                  currentDescription.slice(0, MAX_CHARACTERS_PER_DESCRIPTION) +
+                  '...';
                 this.repoData[this.repoData.length - 1].description =
                   newDescription + '...';
+                return;
               }
+              let i = 0;
+              while (
+                (newDescription + words[i]).length <=
+                MAX_CHARACTERS_PER_DESCRIPTION
+              ) {
+                newDescription = newDescription + words[i] + ' ';
+                i = i + 1;
+              }
+              this.repoData[this.repoData.length - 1].description =
+                newDescription + '...';
+            }
 
-              let topics = this.repoData[this.repoData.length - 1].topics;
-              if (topics && topics.length > 5) {
-                topics = topics.slice(0, 5);
-                topics.push('more...');
-              }
-              this.repoData[this.repoData.length - 1].topics = topics;
-              topics = this.repoData[this.repoData.length - 1].topics;
+            let topics = this.repoData[this.repoData.length - 1].topics;
+            if (topics && topics.length > 5) {
+              topics = topics.slice(0, 5);
+              topics.push('more...');
+            }
+            this.repoData[this.repoData.length - 1].topics = topics;
+            topics = this.repoData[this.repoData.length - 1].topics;
 
-              for (let i = 0; i < topics.length; i++) {
-                if (topics[i].length > 10) {
-                  topics[i] = topics[i].slice(0, 10) + '...';
-                }
+            for (let i = 0; i < topics.length; i++) {
+              if (topics[i].length > 10) {
+                topics[i] = topics[i].slice(0, 10) + '...';
               }
-            });
-          },
-          (error) => {
-            this.errorMessage = this.apiService.getError();
-            this.loading = false;
-            this.loadingRepositories = false;
-            this.searchBar.setValue('');
-            console.error(error);
-          }
-        );
+            }
+          });
+        },
+        (error) => {
+          this.errorMessage = this.apiService.getError();
+          // this.loading = false;
+          // this.loadingRepositories = false;
+          this.searchBar.setValue('');
+          console.error(error);
+        }
+      );
     setTimeout(() => {
-      this.loadingRepositories = false;
+      // this.loadingRepositories = false;
     }, 1000);
   }
   ngOnInit() {
     this.loading = true;
+    this.loadingRepositories = true;
+    this.errorMessage = '';
     if (!this.username || this.username === '') {
       this.loading = false;
+      this.loadingRepositories = false;
+      this.errorMessage = 'Entered user does not exist.';
       return;
     }
     this.apiService.getUser(this.username)?.subscribe(
@@ -157,20 +159,24 @@ export class RepositoryListComponent implements OnInit {
         if (this.userData === null) {
           this.errorMessage = this.apiService.getError();
           console.log(this.errorMessage);
-          this.loading = false;
-          this.loadingRepositories = false;
           return;
         }
         this.totalItems = this.userData.public_repos;
         if (this.userData.twitter_username) {
           this.twitterUrl = `https://twitter.com/${this.userData.twitter_username}`;
         }
+        this.getData();
       },
       (error) => {
         console.error(error);
       }
     );
-    this.getData();
-    this.loading = false;
+    setTimeout(() => {
+      this.loading = false;
+      this.loadingRepositories = false;
+      if (this.userData === null) {
+        this.errorMessage=this.apiService.getError();
+      }
+    }, 1000);
   }
 }
